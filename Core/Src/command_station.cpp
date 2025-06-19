@@ -2,6 +2,8 @@
 #include <cstdio>
 #include "bsp.h"
 
+extern "C" void command_station_main(void);
+
 void CommandStation::trackOutputs(bool N, bool P) { bsp_write_track(N, P); }
 
 void CommandStation::biDiStart() {}
@@ -14,12 +16,14 @@ void CommandStation::biDiEnd() {}
 
 CommandStation command_station;
 
+#if 0
 extern "C" void TIMER_IRQ_HANDLER() {
   auto const arr{command_station.transmit()};
   bsp_command_station_irq(arr);
 }
+#endif
 
-int main() {
+void command_station_main() {
   bsp_init_command_station();
   command_station.init({
     .num_preamble = DCC_TX_MIN_PREAMBLE_BITS,

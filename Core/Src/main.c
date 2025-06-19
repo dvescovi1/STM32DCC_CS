@@ -26,7 +26,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+extern void command_station_main(void);
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -41,6 +41,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 
+TIM_HandleTypeDef htim15;
+
 UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
@@ -52,7 +54,18 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_ICACHE_Init(void);
 static void MX_USART3_UART_Init(void);
+static void MX_TIM15_Init(void);
 /* USER CODE BEGIN PFP */
+#if defined(__ICCARM__)
+/* New definition from EWARM V9, compatible with EWARM8 */
+int iar_fputc(int ch);
+#define PUTCHAR_PROTOTYPE int iar_fputc(int ch)
+#elif defined ( __CC_ARM ) || defined(__ARMCC_VERSION)
+/* ARM Compiler 5/6*/
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#elif defined(__GNUC__)
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#endif /* __ICCARM__ */
 
 /* USER CODE END PFP */
 
@@ -92,6 +105,7 @@ int main(void)
   MX_GPIO_Init();
   MX_ICACHE_Init();
   MX_USART3_UART_Init();
+  MX_TIM15_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -100,6 +114,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    command_station_main();
+    break;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -185,6 +201,52 @@ static void MX_ICACHE_Init(void)
 }
 
 /**
+  * @brief TIM15 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM15_Init(void)
+{
+
+  /* USER CODE BEGIN TIM15_Init 0 */
+
+  /* USER CODE END TIM15_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM15_Init 1 */
+
+  /* USER CODE END TIM15_Init 1 */
+  htim15.Instance = TIM15;
+  htim15.Init.Prescaler = 0;
+  htim15.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim15.Init.Period = 65535;
+  htim15.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim15.Init.RepetitionCounter = 0;
+  htim15.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim15) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim15, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim15, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM15_Init 2 */
+
+  /* USER CODE END TIM15_Init 2 */
+
+}
+
+/**
   * @brief USART3 Initialization Function
   * @param None
   * @retval None
@@ -245,10 +307,14 @@ static void MX_GPIO_Init(void)
   /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOE, TRACK_N_Pin|TRACK_P_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
@@ -258,6 +324,13 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : TRACK_N_Pin TRACK_P_Pin */
+  GPIO_InitStruct.Pin = TRACK_N_Pin|TRACK_P_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
   GPIO_InitStruct.Pin = LD2_Pin;
@@ -286,6 +359,39 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+/**
+  * @brief  Retargets the C library __write function to the IAR function iar_fputc.
+  * @param  file: file descriptor.
+  * @param  ptr: pointer to the buffer where the data is stored.
+  * @param  len: length of the data to write in bytes.
+  * @retval length of the written data in bytes.
+  */
+int _write(int file, char *data, int len)
+{
+    (void)(file);
+    // Transmit data using UART
+    for (int i = 0; i < len; i++)
+    {
+        // Send the character
+        USART3->TDR = (uint16_t)data[i];
+        // Wait for the transmit buffer to be empty
+        while (!(USART3->ISR & USART_ISR_TXE));
+    }
+    return len;
+}
+
+/**
+  * @brief  Retargets the C library printf function to the USART.
+  */
+PUTCHAR_PROTOTYPE
+{
+  /* Place your implementation of putchar here */
+  /* e.g. write a character to the USART3 and Loop until the end of transmission */
+  HAL_UART_Transmit(&huart3, (uint8_t *)&ch, 1, 0xFFFF);
+
+  return ch;
+}
+
 
 /* USER CODE END 4 */
 
