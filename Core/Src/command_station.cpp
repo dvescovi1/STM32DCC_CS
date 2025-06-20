@@ -37,6 +37,14 @@ void command_station_main() {
 
   printf("\n\nBoot\n");
   bsp_delay(2000u);
+
+for(;;) {
+   bsp_write_red_led(true);
+   bsp_delay( 100u);
+   bsp_write_red_led(false);
+   bsp_delay(100u); 
+}
+
   dcc::Packet packet{};
   for (;;) {
     // Accelerate

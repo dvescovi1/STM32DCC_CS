@@ -3,8 +3,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <sys/time.h>
-#include "stm32h5xx_hal.h"
-#include "stm32h5xx_ll_tim.h"
+#include "main.h"
 
 // LEDs
 #define LD1_Pin GPIO_PIN_0
@@ -15,8 +14,8 @@
 #define LD3_GPIO_Port GPIOG
 
 // Track pins
-#define TRACK_N_PIN LL_GPIO_PIN_5
-#define TRACK_P_PIN LL_GPIO_PIN_6
+#define TRACK_N_PIN GPIO_PIN_5
+#define TRACK_P_PIN GPIO_PIN_6
 #define TRACK_GPIO_Port GPIOE
 #define TRACK_N_BS_Pos GPIO_BSRR_BS5_Pos
 #define TRACK_N_BR_Pos GPIO_BSRR_BR5_Pos
@@ -89,6 +88,8 @@ void bsp_init_command_station(void) {
 // Toggle input between TI1 and TI2, subtract captured value from running
 // counter and clear capture/compare interrupt flag.
 uint32_t bsp_decoder_irq(void) {
+
+#if 0
   // Get captured value
   uint32_t const ccr = LL_TIM_IC_GetCaptureCH1(TIM15);
 
@@ -112,22 +113,69 @@ uint32_t bsp_decoder_irq(void) {
   while (LL_TIM_IsActiveFlag_CC1(TIM15)) LL_TIM_ClearFlag_CC1(TIM15);
 
   return ccr;
+#endif
+// 1. Get captured value from CCR1
+uint32_t ccr = HAL_TIM_ReadCapturedValue(&htim15, TIM_CHANNEL_1);
+
+// 2. Toggle input polarity or selection (HAL doesn't support toggling active input directly)
+// Use a static variable to track current polarity
+static uint32_t current_input = TIM_INPUTCHANNELPOLARITY_RISING;
+
+HAL_TIM_IC_Stop(&htim15, TIM_CHANNEL_1);
+
+TIM_IC_InitTypeDef sConfigIC = {0};
+sConfigIC.ICPolarity  = (current_input == TIM_INPUTCHANNELPOLARITY_RISING)
+                        ? TIM_INPUTCHANNELPOLARITY_FALLING
+                        : TIM_INPUTCHANNELPOLARITY_RISING;
+sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;  // or INDIRECTTI if needed
+sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+sConfigIC.ICFilter    = 0;
+
+HAL_TIM_IC_ConfigChannel(&htim15, &sConfigIC, TIM_CHANNEL_1);
+HAL_TIM_IC_Start(&htim15, TIM_CHANNEL_1);
+
+// Update current_input for next call
+current_input = sConfigIC.ICPolarity;
+
+// 3. Subtract captured value from counter
+__disable_irq();
+__HAL_TIM_SET_COUNTER(&htim15, __HAL_TIM_GET_COUNTER(&htim15) - ccr);
+__enable_irq();
+
+// 4. Clear capture flag (HAL clears it automatically in IRQ handler)
+// If needed manually:
+__HAL_TIM_CLEAR_FLAG(&htim15, TIM_FLAG_CC1);
+
+return ccr;
+
+
 }
 
 // Handle timer interrupt for command station
 //
 // Reload ARR register of TIM15 and clear update interrupt flag.
 void bsp_command_station_irq(uint32_t arr) {
+#if 0
   // Reload ARR register
   LL_TIM_SetAutoReload(TIM15, arr);
 
   // Clear update interrupt flag
   while (LL_TIM_IsActiveFlag_UPDATE(TIM15)) LL_TIM_ClearFlag_UPDATE(TIM15);
+#endif
+// 1. Reload ARR register
+__HAL_TIM_SET_AUTORELOAD(&htim15, arr);
+
+// 2. Clear update interrupt flag (if needed manually)
+while (__HAL_TIM_GET_FLAG(&htim15, TIM_FLAG_UPDATE))
+{
+    __HAL_TIM_CLEAR_FLAG(&htim15, TIM_FLAG_UPDATE);
+}
+
 }
 
 void bsp_write_track(bool N, bool P) {
-  TRACK_GPIO_Port->BSRR = !N << TRACK_N_BR_Pos | !P << TRACK_P_BR_Pos |
-                          N << TRACK_N_BS_Pos | P << TRACK_P_BS_Pos;
+  TRACK_GPIO_Port->BSRR = ((uint32_t)(!N) << TRACK_N_BR_Pos) | ((uint32_t)(!P) << TRACK_P_BR_Pos) |
+                          ((uint32_t)(N) << TRACK_N_BS_Pos) | ((uint32_t)(P) << TRACK_P_BS_Pos);
 }
 
 void bsp_write_green_led(bool on) {
