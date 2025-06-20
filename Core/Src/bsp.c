@@ -13,12 +13,12 @@
 #include "stm32h5xx_ll_utils.h"
 
 // LEDs
-#define LD1_Pin LL_GPIO_PIN_0
+#define LD1_Pin GPIO_PIN_0
 #define LD1_GPIO_Port GPIOB
-#define LD2_Pin LL_GPIO_PIN_1
-#define LD2_GPIO_Port GPIOE
-#define LD3_Pin LL_GPIO_PIN_14
-#define LD3_GPIO_Port GPIOB
+#define LD2_Pin GPIO_PIN_4
+#define LD2_GPIO_Port GPIOF
+#define LD3_Pin GPIO_PIN_4
+#define LD3_GPIO_Port GPIOG
 
 // STLINK UART bridge
 #define STLINK_RX_Pin LL_GPIO_PIN_8
@@ -143,18 +143,18 @@ void bsp_write_track(bool N, bool P) {
 }
 
 void bsp_write_green_led(bool on) {
-  if (on) LL_GPIO_SetOutputPin(LD1_GPIO_Port, LD1_Pin);
-  else LL_GPIO_ResetOutputPin(LD1_GPIO_Port, LD1_Pin);
+  if (on) HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
+  else HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_RESET);
 }
 
 void bsp_write_yellow_led(bool on) {
-  if (on) LL_GPIO_SetOutputPin(LD2_GPIO_Port, LD2_Pin);
-  else LL_GPIO_ResetOutputPin(LD2_GPIO_Port, LD2_Pin);
+  if (on) HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+  else HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 }
 
 void bsp_write_red_led(bool on) {
-  if (on) LL_GPIO_SetOutputPin(LD3_GPIO_Port, LD3_Pin);
-  else LL_GPIO_ResetOutputPin(LD3_GPIO_Port, LD3_Pin);
+  if (on) HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
+  else HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
 }
 
 void bsp_delay(uint32_t ms) { HAL_Delay(ms); }
