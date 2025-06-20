@@ -4,13 +4,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include "stm32h5xx_hal.h"
-#include "stm32h5xx_ll_cortex.h"
-#include "stm32h5xx_ll_gpio.h"
-#include "stm32h5xx_ll_pwr.h"
-#include "stm32h5xx_ll_rcc.h"
 #include "stm32h5xx_ll_tim.h"
-#include "stm32h5xx_ll_usart.h"
-#include "stm32h5xx_ll_utils.h"
 
 // LEDs
 #define LD1_Pin GPIO_PIN_0
@@ -19,12 +13,6 @@
 #define LD2_GPIO_Port GPIOF
 #define LD3_Pin GPIO_PIN_4
 #define LD3_GPIO_Port GPIOG
-
-// STLINK UART bridge
-#define STLINK_RX_Pin LL_GPIO_PIN_8
-#define STLINK_RX_GPIO_Port GPIOD
-#define STLINK_TX_Pin LL_GPIO_PIN_9
-#define STLINK_TX_GPIO_Port GPIOD
 
 // Track pins
 #define TRACK_N_PIN LL_GPIO_PIN_5
