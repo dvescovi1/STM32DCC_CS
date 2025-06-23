@@ -16,12 +16,11 @@ void CommandStation::biDiEnd() {}
 
 CommandStation command_station;
 
-#if 0
+
 extern "C" void TIMER_IRQ_HANDLER() {
   auto const arr{command_station.transmit()};
   bsp_command_station_irq(arr);
 }
-#endif
 
 void command_station_main() {
   bsp_init_command_station();
@@ -36,7 +35,7 @@ void command_station_main() {
   bsp_write_red_led(true);
 
   printf("\n\nBoot\n");
-  bsp_delay(2000u);
+  bsp_delay(200u);
 
   printf("Command station: init\n");
 #if 0

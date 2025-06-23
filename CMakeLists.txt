@@ -61,6 +61,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/bsp.c
     Core/Src/command_station.cpp
 #    Core/Src/decoder.cpp
+
 )
 
 # Add include paths

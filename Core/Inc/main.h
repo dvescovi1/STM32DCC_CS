@@ -28,6 +28,18 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h5xx_hal.h"
+#include "stm32h5xx_ll_icache.h"
+#include "stm32h5xx_ll_pwr.h"
+#include "stm32h5xx_ll_crs.h"
+#include "stm32h5xx_ll_rcc.h"
+#include "stm32h5xx_ll_bus.h"
+#include "stm32h5xx_ll_system.h"
+#include "stm32h5xx_ll_exti.h"
+#include "stm32h5xx_ll_cortex.h"
+#include "stm32h5xx_ll_utils.h"
+#include "stm32h5xx_ll_dma.h"
+#include "stm32h5xx_ll_tim.h"
+#include "stm32h5xx_ll_gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -36,7 +48,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-extern TIM_HandleTypeDef htim15;
+
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

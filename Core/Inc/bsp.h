@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "stm32h5xx_ll_tim.h"
 
 #define TIMER_IRQ_HANDLER TIM15_IRQHandler
 
@@ -10,13 +11,13 @@ extern "C" {
 #endif
 
 // Initialize board to decoder (PE5 and PE6 are track inputs)
-void bsp_init_decoder(void);
+//void bsp_init_decoder(void);
 
 // Initialize board to command station (PE5 and PE5 are track outputs)
 void bsp_init_command_station(void);
 
 // Handle decoder interrupt
-uint32_t bsp_decoder_irq(void);
+//uint32_t bsp_decoder_irq(void);
 
 // Handle command station interrupt
 void bsp_command_station_irq(uint32_t arr);
