@@ -38,14 +38,6 @@ void command_station_main() {
   bsp_delay(200u);
 
   printf("Command station: init\n");
-#if 0
-  for(;;) {
-   bsp_write_red_led(true);
-   bsp_delay( 100u);
-   bsp_write_red_led(false);
-   bsp_delay(100u); 
-}
-#endif
 
   dcc::Packet packet{};
   for (;;) {
