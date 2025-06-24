@@ -1,26 +1,10 @@
-#include "bsp.h"
-#include <errno.h>
-#include <stddef.h>
 #include <stdio.h>
-#include <sys/time.h>
+#include "bsp.h"
 #include "main.h"
-#include <sys/time.h>
-#include "stm32h5xx_ll_icache.h"
-#include "stm32h5xx_ll_rcc.h"
-#include "stm32h5xx_ll_bus.h"
-#include "stm32h5xx_ll_system.h"
-#include "stm32h5xx_ll_cortex.h"
-#include "stm32h5xx_ll_utils.h"
-#include "stm32h5xx_ll_dma.h"
 #include "stm32h5xx_ll_tim.h"
-#include "stm32h5xx_ll_gpio.h"
-#include "stm32h5xx_ll_utils.h"
-#include "stm32h5xx_ll_bus.h"
 
 
 // Track pins
-#define TRACK_N_PIN GPIO_PIN_5
-#define TRACK_P_PIN GPIO_PIN_6
 #define TRACK_GPIO_Port GPIOE
 #define TRACK_N_BS_Pos GPIO_BSRR_BS5_Pos
 #define TRACK_N_BR_Pos GPIO_BSRR_BR5_Pos
@@ -29,13 +13,6 @@
 
 
 void bsp_init_command_station(void) {
-  LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
-  GPIO_InitStruct.Pin = TRACK_N_PIN | TRACK_P_PIN;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(TRACK_GPIO_Port, &GPIO_InitStruct);
 
   // Peripheral clock enable
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM15);

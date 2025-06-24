@@ -2,7 +2,6 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "stm32h5xx_ll_tim.h"
 
 #define TIMER_IRQ_HANDLER TIM15_IRQHandler
 
