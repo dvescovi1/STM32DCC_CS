@@ -1,10 +1,22 @@
 #include "command_station.hpp"
 #include <cstdio>
-#include "bsp.h"
+#include "main.h"
 
 extern "C" void command_station_main(void);
 
-void CommandStation::trackOutputs(bool N, bool P) { bsp_write_track(N, P); }
+// Track pins
+#define TRACK_N_BS_Pos GPIO_BSRR_BS5_Pos
+#define TRACK_N_BR_Pos GPIO_BSRR_BR5_Pos
+#define TRACK_P_BS_Pos GPIO_BSRR_BS6_Pos
+#define TRACK_P_BR_Pos GPIO_BSRR_BR6_Pos
+
+
+
+void CommandStation::trackOutputs(bool N, bool P) 
+{ 
+ TRACK_N_GPIO_Port->BSRR = (static_cast<uint32_t>(!N) << TRACK_N_BR_Pos) | (static_cast<uint32_t>(!P) << TRACK_P_BR_Pos) |
+                          (static_cast<uint32_t>(N) << TRACK_N_BS_Pos) | (static_cast<uint32_t>(P) << TRACK_P_BS_Pos);
+}
 
 void CommandStation::biDiStart() {}
 
@@ -17,13 +29,17 @@ void CommandStation::biDiEnd() {}
 CommandStation command_station;
 
 
-extern "C" void TIMER_IRQ_HANDLER() {
+extern "C" void TIM15_IRQHandler() {
   auto const arr{command_station.transmit()};
-  bsp_command_station_irq(arr);
+  // Reload ARR register
+__HAL_TIM_SET_AUTORELOAD(&htim15, arr);
+__HAL_TIM_CLEAR_FLAG(&htim15, TIM_FLAG_UPDATE);
 }
 
+
+
 void command_station_main() {
-  bsp_init_command_station();
+//  bsp_init_command_station();
   command_station.init({
     .num_preamble = DCC_TX_MIN_PREAMBLE_BITS,
     .bit1_duration = 58u,
@@ -35,7 +51,7 @@ void command_station_main() {
   bsp_write_red_led(true);
 
   printf("\n\nBoot\n");
-  bsp_delay(200u);
+  HAL_Delay(200u);
 
   printf("Command station: init\n");
 
@@ -46,27 +62,27 @@ void command_station_main() {
     command_station.packet(packet);
     printf("\nCommand station: accelerate to speed step 42\n");
     bsp_write_green_led(true);
-    bsp_delay(2000u);
+    HAL_Delay(2000u);
 
     // Set function F3
     packet = dcc::make_function_group_f4_f0_packet(3u, 0b0'1000u);
     command_station.packet(packet);
     printf("Command station: set function F3\n");
     bsp_write_yellow_led(true);
-    bsp_delay(2000u);
+    HAL_Delay(2000u);
 
     // Decelerate
     packet = dcc::make_advanced_operations_speed_packet(3u, 1u << 7u | 0u);
     command_station.packet(packet);
     printf("Command station: stop\n");
     bsp_write_green_led(false);
-    bsp_delay(2000u);
+    HAL_Delay(2000u);
 
     // Clear function
     packet = dcc::make_function_group_f4_f0_packet(3u, 0b0'0000u);
     command_station.packet(packet);
     printf("Command station: clear function F3\n");
     bsp_write_yellow_led(false);
-    bsp_delay(2000u);
+    HAL_Delay(2000u);
   }
 }

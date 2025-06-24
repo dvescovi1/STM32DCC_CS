@@ -62,6 +62,6 @@ int main() {
   printf("\n\nBoot\n");
   for (;;) {
     decoder.execute();
-    bsp_delay(5u);
+    HAL_Delay(5u);
   }
 }
