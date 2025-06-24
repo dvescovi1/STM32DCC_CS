@@ -58,7 +58,6 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
-    Core/Src/bsp.c
     Core/Src/command_station.cpp
 #    Core/Src/decoder.cpp
 

@@ -28,26 +28,17 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h5xx_hal.h"
-#include "stm32h5xx_ll_tim.h"
-#include "stm32h5xx_ll_bus.h"
-#include "stm32h5xx_ll_cortex.h"
-#include "stm32h5xx_ll_rcc.h"
-#include "stm32h5xx_ll_system.h"
-#include "stm32h5xx_ll_utils.h"
-#include "stm32h5xx_ll_pwr.h"
-#include "stm32h5xx_ll_gpio.h"
-#include "stm32h5xx_ll_dma.h"
-
-#include "stm32h5xx_ll_exti.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdbool.h>
+#include <stdint.h>
 
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+extern TIM_HandleTypeDef htim15;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -64,6 +55,10 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+void bsp_write_green_led(bool on);
+void bsp_write_yellow_led(bool on);
+void bsp_write_red_led(bool on);
+ 
 
 /* USER CODE END EFP */
 
