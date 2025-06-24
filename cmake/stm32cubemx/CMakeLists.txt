@@ -12,10 +12,10 @@ set(MX_Defines_Syms
 # STM32CubeMX generated include paths
 set(MX_Include_Dirs
     ${CMAKE_SOURCE_DIR}/Core/Inc
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Inc
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Inc/Legacy
-    ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32H5xx/Include
-    ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Inc
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Inc/Legacy
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/CMSIS/Device/ST/STM32H5xx/Include
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/CMSIS/Include
 )
 
 # STM32CubeMX generated application sources
@@ -31,27 +31,27 @@ set(MX_Application_Src
 # STM32 HAL/LL Drivers
 set(STM32_Drivers_Src
     ${CMAKE_SOURCE_DIR}/Core/Src/system_stm32h5xx.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_utils.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_exti.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_cortex.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_icache.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_rcc.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_rcc_ex.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_flash.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_flash_ex.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_gpio.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_dma.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_dma_ex.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_pwr.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_pwr_ex.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_exti.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_rcc.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_tim.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_gpio.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_dma.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_uart.c
-    ${CMAKE_SOURCE_DIR}/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_uart_ex.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_utils.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_exti.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_cortex.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_icache.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_rcc.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_rcc_ex.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_flash.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_flash_ex.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_gpio.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_dma.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_dma_ex.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_pwr.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_pwr_ex.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_exti.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_rcc.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_tim.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_gpio.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_dma.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_uart.c
+    C:/Users/dvesc/STM32Cube/Repository/STM32Cube_FW_H5_V1.5.0/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_uart_ex.c
 )
 
 # Drivers Midllewares
