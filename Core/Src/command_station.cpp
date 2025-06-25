@@ -7,8 +7,8 @@ extern "C" void command_station_main(void);
 
 void CommandStation::trackOutputs(bool N, bool P) 
 { 
- TRACK_GPIO_Port->BSRR = (static_cast<uint32_t>(!N) << TRACK_BR_Pos) |
-                          (static_cast<uint32_t>(N) << TRACK_BS_Pos);
+ TRACK_N_GPIO_Port->BSRR = (static_cast<uint32_t>(!N) << TRACK_N_BR_Pos) | (static_cast<uint32_t>(!P) << TRACK_P_BR_Pos) |
+                           (static_cast<uint32_t>(N) << TRACK_N_BS_Pos) | (static_cast<uint32_t>(P) << TRACK_P_BS_Pos);
 }
 
 void CommandStation::biDiStart() {}
