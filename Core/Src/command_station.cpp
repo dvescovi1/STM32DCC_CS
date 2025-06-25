@@ -32,7 +32,7 @@ __HAL_TIM_CLEAR_FLAG(&htim15, TIM_FLAG_UPDATE);
 
 
 void command_station_main() {
-//  bsp_init_command_station();
+
   command_station.init({
     .num_preamble = DCC_TX_MIN_PREAMBLE_BITS,
     .bit1_duration = 58u,
