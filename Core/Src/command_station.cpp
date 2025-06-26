@@ -40,6 +40,8 @@ void command_station_main() {
     .flags = {.invert = false, .bidi = true},
   });
 
+  printf("SystemCoreClock = %lu Hz\r\n", SystemCoreClock);
+  
   // Turn red LED on to indicate this board is the command station
   bsp_write_red_led(true);
 
