@@ -260,11 +260,6 @@ static void MX_TIM15_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM15_Init 2 */
-  // Enable update interrupt
-  __HAL_TIM_ENABLE_IT(&htim15, TIM_IT_UPDATE);
-
-  // Start the timer
-  HAL_TIM_Base_Start(&htim15);
 
   /* USER CODE END TIM15_Init 2 */
 

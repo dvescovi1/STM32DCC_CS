@@ -39,20 +39,23 @@ void command_station_main() {
     .bit0_duration = 100u,
     .flags = {.invert = false, .bidi = true},
   });
-
+  printf("Command station: init\n");
   printf("SystemCoreClock = %lu Hz\r\n", SystemCoreClock);
   
   // Turn red LED on to indicate this board is the command station
   bsp_write_red_led(true);
 
   printf("\n\nBoot\n");
+    // Enable update interrupt
+  __HAL_TIM_ENABLE_IT(&htim15, TIM_IT_UPDATE);
+  // Start the timer
+  HAL_TIM_Base_Start(&htim15);
+
   HAL_Delay(200u);
 
 #if defined(DEBUG)
   SCB->CCR &= ~SCB_CCR_UNALIGN_TRP_Msk;
 #endif
-
-  printf("Command station: init\n");
 
   dcc::Packet packet{};
   for (;;) {
