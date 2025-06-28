@@ -32,8 +32,8 @@ void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
       auto const arr{command_station.transmit()};
       arr_next = arr;
       arr_next = 75 * arr_next;
-      htim15.Instance->ARR = arr_next * 2;
-      htim15.Instance->CCR1 = arr_next;
+      htim2.Instance->ARR = arr_next * 2;
+      htim2.Instance->CCR1 = arr_next;
     }
     else if (htim->Instance == TIM15)
     {
@@ -61,8 +61,8 @@ void command_station_main() {
   printf("\n\nBoot\n");
   
   // Enable update interrupt
-  __HAL_TIM_ENABLE_IT(&htim15, TIM_IT_UPDATE);
-  HAL_TIM_PWM_Start_IT(&htim15, TIM_CHANNEL_1);
+  __HAL_TIM_ENABLE_IT(&htim2, TIM_IT_UPDATE);
+  HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_1);
 
   HAL_Delay(200u);
 

@@ -79,12 +79,6 @@ void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 #define LD3_GPIO_Port GPIOG
 
 /* USER CODE BEGIN Private defines */
-// Track pins
-#define TRACK_N_BS_Pos GPIO_BSRR_BS0_Pos
-#define TRACK_N_BR_Pos GPIO_BSRR_BR0_Pos
-#define TRACK_P_BS_Pos GPIO_BSRR_BS3_Pos
-#define TRACK_P_BR_Pos GPIO_BSRR_BR3_Pos
-
 
 /* USER CODE END Private defines */
 
