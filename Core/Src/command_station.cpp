@@ -1,7 +1,6 @@
 #include "command_station.hpp"
 #include <cstdio>
 #include "main.h"
-#include "stm32h5xx_hal_tim.h"
 
 extern "C" void command_station_main(void);
 
@@ -34,14 +33,6 @@ void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
       arr_next = 75 * arr_next;
       htim2.Instance->ARR = arr_next * 2;
       htim2.Instance->CCR1 = arr_next;
-    }
-    else if (htim->Instance == TIM15)
-    {
-      auto const arr{command_station.transmit()};
-      arr_next = arr;
-      arr_next = 75 * arr_next;
-      htim15.Instance->ARR = arr_next * 2;
-      htim15.Instance->CCR1 = arr_next;
     }
 }
 

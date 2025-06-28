@@ -39,7 +39,7 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern TIM_HandleTypeDef htim2;
-extern TIM_HandleTypeDef htim15;
+
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -67,8 +67,6 @@ void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define TRACK_P_Pin GPIO_PIN_5
-#define TRACK_P_GPIO_Port GPIOE
 #define LD2_Pin GPIO_PIN_4
 #define LD2_GPIO_Port GPIOF
 #define TRACK_Pin GPIO_PIN_0
