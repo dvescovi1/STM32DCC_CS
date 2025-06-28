@@ -65,12 +65,12 @@ void bsp_write_red_led(bool on);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define TRACK_N_Pin GPIO_PIN_4
+#define TRACK_N_GPIO_Port GPIOE
+#define TRACK_P_Pin GPIO_PIN_5
+#define TRACK_P_GPIO_Port GPIOE
 #define LD2_Pin GPIO_PIN_4
 #define LD2_GPIO_Port GPIOF
-#define TRACK_N_Pin GPIO_PIN_0
-#define TRACK_N_GPIO_Port GPIOA
-#define TRACK_P_Pin GPIO_PIN_3
-#define TRACK_P_GPIO_Port GPIOA
 #define LD1_Pin GPIO_PIN_0
 #define LD1_GPIO_Port GPIOB
 #define LD3_Pin GPIO_PIN_4
