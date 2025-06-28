@@ -23,20 +23,26 @@ CommandStation command_station;
 
 uint32_t arr_next{0u};
 
-extern "C" void TIM15_IRQHandler() {
-  // Reload ARR register
-
-  if (__HAL_TIM_GET_FLAG(&htim15, TIM_FLAG_UPDATE)) {
-    auto const arr{command_station.transmit()};
-    __HAL_TIM_CLEAR_IT(&htim15, TIM_IT_UPDATE);
-    arr_next = arr;
-    arr_next = 75 * arr_next;
-    htim15.Instance->ARR = arr_next * 2;
-    htim15.Instance->CCR1 = arr_next;
-  }
+/* only use callback if NOT using custom interrupt handler! */
+void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    if (htim->Instance == TIM2)
+    {
+      auto const arr{command_station.transmit()};
+      arr_next = arr;
+      arr_next = 75 * arr_next;
+      htim15.Instance->ARR = arr_next * 2;
+      htim15.Instance->CCR1 = arr_next;
+    }
+    else if (htim->Instance == TIM15)
+    {
+      auto const arr{command_station.transmit()};
+      arr_next = arr;
+      arr_next = 75 * arr_next;
+      htim15.Instance->ARR = arr_next * 2;
+      htim15.Instance->CCR1 = arr_next;
+    }
 }
-
-
 
 void command_station_main() {
   command_station.init({

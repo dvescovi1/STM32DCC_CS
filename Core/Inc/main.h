@@ -38,6 +38,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim15;
 /* USER CODE END ET */
 
@@ -61,6 +62,7 @@ void bsp_write_green_led(bool on);
 void bsp_write_yellow_led(bool on);
 void bsp_write_red_led(bool on);
  
+void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 
 /* USER CODE END EFP */
 
@@ -71,6 +73,8 @@ void bsp_write_red_led(bool on);
 #define TRACK_P_GPIO_Port GPIOE
 #define LD2_Pin GPIO_PIN_4
 #define LD2_GPIO_Port GPIOF
+#define TRACK_Pin GPIO_PIN_0
+#define TRACK_GPIO_Port GPIOA
 #define LD1_Pin GPIO_PIN_0
 #define LD1_GPIO_Port GPIOB
 #define LD3_Pin GPIO_PIN_4
