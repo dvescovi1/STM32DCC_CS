@@ -21,7 +21,6 @@ void CommandStation::biDiEnd() {}
 
 CommandStation command_station;
 
-uint32_t arr_next{0u};
 
 /* only use callback if NOT using custom interrupt handler! */
 void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -29,10 +28,8 @@ void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     if (htim->Instance == TIM2)
     {
       auto const arr{command_station.transmit()};
-      arr_next = arr;
-      arr_next = 75 * arr_next;
-      htim2.Instance->ARR = arr_next * 2;
-      htim2.Instance->CCR1 = arr_next;
+      htim2.Instance->ARR = arr * 2;
+      htim2.Instance->CCR1 = arr;
     }
 }
 
