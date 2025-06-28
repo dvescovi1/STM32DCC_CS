@@ -67,8 +67,6 @@ void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define TRACK_N_Pin GPIO_PIN_4
-#define TRACK_N_GPIO_Port GPIOE
 #define TRACK_P_Pin GPIO_PIN_5
 #define TRACK_P_GPIO_Port GPIOE
 #define LD2_Pin GPIO_PIN_4

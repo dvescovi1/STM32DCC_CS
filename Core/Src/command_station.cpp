@@ -1,6 +1,7 @@
 #include "command_station.hpp"
 #include <cstdio>
 #include "main.h"
+#include "stm32h5xx_hal_tim.h"
 
 extern "C" void command_station_main(void);
 
@@ -61,8 +62,7 @@ void command_station_main() {
   
   // Enable update interrupt
   __HAL_TIM_ENABLE_IT(&htim15, TIM_IT_UPDATE);
-  // Start the timer
-  HAL_TIM_PWM_Start(&htim15, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start_IT(&htim15, TIM_CHANNEL_1);
 
   HAL_Delay(200u);
 

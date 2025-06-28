@@ -146,15 +146,14 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
 
     __HAL_RCC_GPIOE_CLK_ENABLE();
     /**TIM15 GPIO Configuration
-    PE4     ------> TIM15_CH1N
     PE5     ------> TIM15_CH1
     */
-    GPIO_InitStruct.Pin = TRACK_N_Pin|TRACK_P_Pin;
+    GPIO_InitStruct.Pin = TRACK_P_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF4_TIM15;
-    HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+    HAL_GPIO_Init(TRACK_P_GPIO_Port, &GPIO_InitStruct);
 
     /* USER CODE BEGIN TIM15_MspPostInit 1 */
 
