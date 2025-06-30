@@ -61,8 +61,7 @@ void Error_Handler(void);
 void bsp_write_green_led(bool on);
 void bsp_write_yellow_led(bool on);
 void bsp_write_red_led(bool on);
- 
-void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
+
 
 /* USER CODE END EFP */
 

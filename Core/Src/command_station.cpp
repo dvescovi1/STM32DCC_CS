@@ -23,14 +23,14 @@ CommandStation command_station;
 
 
 /* only use callback if NOT using custom interrupt handler! */
-void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+extern "C" void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   auto const arr{command_station.transmit()};
   htim->Instance->ARR = arr * 2;
   htim->Instance->CCR1 = arr;
 }
 
-void command_station_main() {
+extern "C" void command_station_main() {
   command_station.init({
     .num_preamble = DCC_TX_MIN_PREAMBLE_BITS,
     .bit1_duration = 58u,
