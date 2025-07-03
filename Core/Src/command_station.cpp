@@ -30,6 +30,21 @@ extern "C" void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   htim->Instance->CCR1 = arr;
 }
 
+
+#if 0
+extern "C" void TIM2_IRQHandler(void) 
+{
+//  if (TIM2->SR & TIM_SR_UIF)  // Check update interrupt flag
+//      TIM2->SR &= static_cast<uint32_t>(~TIM_SR_UIF);  // Clear the flag
+
+  auto const arr{command_station.transmit()};
+  TIM2->ARR = arr * 2;
+  TIM2->CCR1 = arr;
+  TIM2->SR &= static_cast<uint32_t>(~TIM_SR_UIF);  // Clear the flag
+  HAL_TIM_IRQHandler(&htim2);
+}
+#endif
+
 extern "C" void command_station_main() {
   command_station.init({
     .num_preamble = DCC_TX_MIN_PREAMBLE_BITS,
@@ -37,14 +52,10 @@ extern "C" void command_station_main() {
     .bit0_duration = 100u,
     .flags = {.invert = false, .bidi = true},
   });
-  printf("Command station: init\n");
-  printf("SystemCoreClock = %lu Hz\r\n", SystemCoreClock);
   
   // Turn red LED on to indicate this board is the command station
   bsp_write_red_led(true);
 
-  printf("\n\nBoot\n");
-  
   // Enable update interrupt
   __HAL_TIM_ENABLE_IT(&htim2, TIM_IT_UPDATE);
   HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_1);
@@ -58,37 +69,34 @@ extern "C" void command_station_main() {
   // Send a few packets to test the command station
   // This is not part of the command station functionality, but rather a test
   // to see if the command station is working correctly.
-  bsp_write_green_led(false);
-  bsp_write_yellow_led(false);
-  bsp_write_red_led(false);
 
-dcc::Packet packet{};
+ dcc::Packet packet{};
   for (;;) {
     // Accelerate
     packet = dcc::make_advanced_operations_speed_packet(3u, 1u << 7u | 42u);
     command_station.packet(packet);
-    printf("\nCommand station: accelerate to speed step 42\n");
+//    printf("\nCommand station: accelerate to speed step 42\n");
     bsp_write_green_led(true);
     HAL_Delay(2000u);
 
     // Set function F3
     packet = dcc::make_function_group_f4_f0_packet(3u, 0b0'1000u);
     command_station.packet(packet);
-    printf("Command station: set function F3\n");
+//    printf("Command station: set function F3\n");
     bsp_write_yellow_led(true);
     HAL_Delay(2000u);
 
     // Decelerate
     packet = dcc::make_advanced_operations_speed_packet(3u, 1u << 7u | 0u);
     command_station.packet(packet);
-    printf("Command station: stop\n");
+//    printf("Command station: stop\n");
     bsp_write_green_led(false);
     HAL_Delay(2000u);
 
     // Clear function
     packet = dcc::make_function_group_f4_f0_packet(3u, 0b0'0000u);
     command_station.packet(packet);
-    printf("Command station: clear function F3\n");
+//    printf("Command station: clear function F3\n");
     bsp_write_yellow_led(false);
     HAL_Delay(2000u);
   }
