@@ -70,34 +70,34 @@ extern "C" void command_station_main() {
   // This is not part of the command station functionality, but rather a test
   // to see if the command station is working correctly.
 
- dcc::Packet packet{};
+  dcc::Packet packet{};
   for (;;) {
     // Accelerate
     packet = dcc::make_advanced_operations_speed_packet(3u, 1u << 7u | 42u);
     command_station.packet(packet);
 //    printf("\nCommand station: accelerate to speed step 42\n");
     bsp_write_green_led(true);
-    HAL_Delay(2000u);
+    HAL_Delay(200u);
 
     // Set function F3
     packet = dcc::make_function_group_f4_f0_packet(3u, 0b0'1000u);
     command_station.packet(packet);
 //    printf("Command station: set function F3\n");
     bsp_write_yellow_led(true);
-    HAL_Delay(2000u);
+    HAL_Delay(200u);
 
     // Decelerate
     packet = dcc::make_advanced_operations_speed_packet(3u, 1u << 7u | 0u);
     command_station.packet(packet);
 //    printf("Command station: stop\n");
     bsp_write_green_led(false);
-    HAL_Delay(2000u);
+    HAL_Delay(200u);
 
     // Clear function
     packet = dcc::make_function_group_f4_f0_packet(3u, 0b0'0000u);
     command_station.packet(packet);
 //    printf("Command station: clear function F3\n");
     bsp_write_yellow_led(false);
-    HAL_Delay(2000u);
+    HAL_Delay(200u);
   }
 }
