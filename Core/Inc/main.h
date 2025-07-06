@@ -70,6 +70,8 @@ void bsp_write_red_led(bool on);
 #define TR_P_GPIO_Port GPIOE
 #define TR_N_Pin GPIO_PIN_3
 #define TR_N_GPIO_Port GPIOE
+#define DCC_TRG_Pin GPIO_PIN_5
+#define DCC_TRG_GPIO_Port GPIOE
 #define LD2_Pin GPIO_PIN_4
 #define LD2_GPIO_Port GPIOF
 #define TRACK_Pin GPIO_PIN_0

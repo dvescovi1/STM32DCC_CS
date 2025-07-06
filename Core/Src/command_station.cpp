@@ -25,9 +25,11 @@ CommandStation command_station;
 /* only use callback if NOT using custom interrupt handler! */
 extern "C" void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_5, GPIO_PIN_SET);   // Set PE5 high
   auto const arr{command_station.transmit()};
   htim->Instance->ARR = arr * 2;
   htim->Instance->CCR1 = arr;
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_5, GPIO_PIN_RESET); // Set PE5 low
 }
 
 extern "C" void command_station_main() {
