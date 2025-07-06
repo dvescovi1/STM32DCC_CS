@@ -26,8 +26,7 @@ CommandStation command_station;
 extern "C" void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   auto const arr{command_station.transmit()};
-  htim->Instance->ARR = arr * 2;
-  htim->Instance->CCR1 = arr;
+  htim->Instance->ARR = arr;
 }
 
 
