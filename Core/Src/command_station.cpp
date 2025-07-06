@@ -25,24 +25,12 @@ CommandStation command_station;
 /* only use callback if NOT using custom interrupt handler! */
 extern "C" void CS_HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_5, GPIO_PIN_SET);   // Set DCC trigger high
   auto const arr{command_station.transmit()};
   htim->Instance->ARR = arr;
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_5, GPIO_PIN_RESET); // Set DCC trigger low
 }
 
-
-#if 0
-extern "C" void TIM2_IRQHandler(void) 
-{
-//  if (TIM2->SR & TIM_SR_UIF)  // Check update interrupt flag
-//      TIM2->SR &= static_cast<uint32_t>(~TIM_SR_UIF);  // Clear the flag
-
-  auto const arr{command_station.transmit()};
-  TIM2->ARR = arr * 2;
-  TIM2->CCR1 = arr;
-  TIM2->SR &= static_cast<uint32_t>(~TIM_SR_UIF);  // Clear the flag
-  HAL_TIM_IRQHandler(&htim2);
-}
-#endif
 
 extern "C" void command_station_main() {
   command_station.init({
@@ -74,28 +62,28 @@ extern "C" void command_station_main() {
     // Accelerate
     packet = dcc::make_advanced_operations_speed_packet(3u, 1u << 7u | 42u);
     command_station.packet(packet);
-//    printf("\nCommand station: accelerate to speed step 42\n");
+    printf("\nCommand station: accelerate to speed step 42\n");
     bsp_write_green_led(true);
     HAL_Delay(200u);
 
     // Set function F3
     packet = dcc::make_function_group_f4_f0_packet(3u, 0b0'1000u);
     command_station.packet(packet);
-//    printf("Command station: set function F3\n");
+    printf("Command station: set function F3\n");
     bsp_write_yellow_led(true);
     HAL_Delay(200u);
 
     // Decelerate
     packet = dcc::make_advanced_operations_speed_packet(3u, 1u << 7u | 0u);
     command_station.packet(packet);
-//    printf("Command station: stop\n");
+    printf("Command station: stop\n");
     bsp_write_green_led(false);
     HAL_Delay(200u);
 
     // Clear function
     packet = dcc::make_function_group_f4_f0_packet(3u, 0b0'0000u);
     command_station.packet(packet);
-//    printf("Command station: clear function F3\n");
+    printf("Command station: clear function F3\n");
     bsp_write_yellow_led(false);
     HAL_Delay(200u);
   }
