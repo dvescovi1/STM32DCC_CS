@@ -66,6 +66,10 @@ void bsp_write_red_led(bool on);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define TR_P_Pin GPIO_PIN_2
+#define TR_P_GPIO_Port GPIOE
+#define TR_N_Pin GPIO_PIN_3
+#define TR_N_GPIO_Port GPIOE
 #define LD2_Pin GPIO_PIN_4
 #define LD2_GPIO_Port GPIOF
 #define TRACK_Pin GPIO_PIN_0
@@ -76,6 +80,11 @@ void bsp_write_red_led(bool on);
 #define LD3_GPIO_Port GPIOG
 
 /* USER CODE BEGIN Private defines */
+/* set and reset TR bit positions */
+#define TR_P_BS_Pos GPIO_BSRR_BS2_Pos
+#define TR_P_BR_Pos GPIO_BSRR_BR2_Pos
+#define TR_N_BS_Pos GPIO_BSRR_BS3_Pos
+#define TR_N_BR_Pos GPIO_BSRR_BR3_Pos
 
 /* USER CODE END Private defines */
 
