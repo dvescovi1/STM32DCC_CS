@@ -22,6 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stm32_lock_user.h"
 #include "command_station.h"
 
 /* USER CODE END Includes */
@@ -48,6 +49,7 @@ TIM_HandleTypeDef htim2;
 UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
+LockingData_t newlib_lock = LOCKING_DATA_INIT;
 
 /* USER CODE END PV */
 
@@ -73,6 +75,11 @@ int iar_fputc(int ch);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void init_thread_safe_system(void)
+{
+    stm32_lock_init(&newlib_lock);
+}
 
 void bsp_write_green_led(bool on) {
   if (on) HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
@@ -116,6 +123,9 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
+  // Initialize thread-safe lock
+  init_thread_safe_system();
+  
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
